@@ -2,6 +2,7 @@ package main
 
 import (
 	"net/http"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -12,5 +13,5 @@ func main() {
 		ctx.JSON(http.StatusOk, gin.H{"data": "App up and running"})
 	})
 
-	
+	router.Run(":8000")
 }
