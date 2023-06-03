@@ -68,6 +68,8 @@ services:
       - kong_postgres_password
     networks:
       - kong-net
+    extra_hosts:
+      - "host.docker.internal:<IP ADDR>"
     ports:
       - "${KONG_INBOUND_PROXY_LISTEN:-0.0.0.0}:8000:8000/tcp"
       - "${KONG_INBOUND_SSL_PROXY_LISTEN:-0.0.0.0}:8443:8443/tcp"
