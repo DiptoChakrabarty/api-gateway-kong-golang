@@ -18,8 +18,8 @@ func AuthorizeToken() gin.HandlerFunc {
 
 		token, err := service.NewJWTService().ValidateToken(tokenUser)
 
-		if token.Vaild {
-			_ = token.claims.(jwt.MapClaims)
+		if token.Valid {
+			_ = token.Claims.(jwt.MapClaims)
 		} else {
 			log.Println(err)
 			ctx.AbortWithStatus(http.StatusUnauthorized)

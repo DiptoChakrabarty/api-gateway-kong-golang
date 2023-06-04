@@ -6,6 +6,7 @@ import (
 	"net/url"
 
 	"api_microservice/controller"
+	"api_microservice/middleware"
 	"api_microservice/service"
 
 	"github.com/gin-gonic/gin"
@@ -30,7 +31,6 @@ func main() {
 	})
 
 	router.POST("/login", func(ctx *gin.Context) {
-		//token := controller.loginCon
 		token := loginController.Login(ctx)
 		if token != "" {
 			ctx.JSON(http.StatusOK, gin.H{
@@ -41,7 +41,7 @@ func main() {
 		}
 	})
 
-	router.Any("/api/*path", func(ctx *gin.Context) {
+	router.Any("/api/*path", middleware.AuthorizeToken(), func(ctx *gin.Context) {
 		proxy.ServeHTTP(ctx.Writer, ctx.Request)
 	})
 
