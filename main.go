@@ -23,7 +23,7 @@ func main() {
 	// Create reverse proxy
 	proxy := httputil.NewSingleHostReverseProxy(&url.URL{
 		Scheme: "http",
-		Host:   "http://localhost:5000",
+		Host:   "localhost:5000",
 	})
 
 	router.GET("/", func(ctx *gin.Context) {
