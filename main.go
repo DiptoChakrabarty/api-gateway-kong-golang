@@ -5,7 +5,15 @@ import (
 	"net/http/httputil"
 	"net/url"
 
+	"api_microservice/controller"
+	"api_microservice/service"
+
 	"github.com/gin-gonic/gin"
+)
+
+var (
+	jwtService      service.JWTService         = service.NewJWTService()
+	loginController controller.LoginController = controller.NewLoginController(jwtService)
 )
 
 func main() {
@@ -19,6 +27,18 @@ func main() {
 
 	router.GET("/", func(ctx *gin.Context) {
 		ctx.JSON(http.StatusAccepted, gin.H{"data": "App up and running"})
+	})
+
+	router.POST("/login", func(ctx *gin.Context) {
+		//token := controller.loginCon
+		token := loginController.Login(ctx)
+		if token != "" {
+			ctx.JSON(http.StatusOK, gin.H{
+				"token": token,
+			})
+		} else {
+			ctx.JSON(http.StatusUnauthorized, nil)
+		}
 	})
 
 	router.Any("/api/*path", func(ctx *gin.Context) {
