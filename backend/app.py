@@ -2,15 +2,15 @@ from flask import Flask,jsonify, request
 
 app = Flask(__name__)
 
-@app.route("/health")
+@app.route("/api/health")
 def health():
     return jsonify(
         {
-            "Message": "App is Up and Running"
+            "Message": "App is Up and Running python"
         }
     ), 200
 
-@app.route("/entry",methods=["POST"])
+@app.route("/api/entry",methods=["POST"])
 def entry():
     data = request.get_json()
     name = data["name"]
@@ -24,4 +24,4 @@ def entry():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0")
+    app.run(host="0.0.0.0",debug=True)

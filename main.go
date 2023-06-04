@@ -5,7 +5,16 @@ import (
 	"net/http/httputil"
 	"net/url"
 
+	"api_microservice/controller"
+	"api_microservice/middleware"
+	"api_microservice/service"
+
 	"github.com/gin-gonic/gin"
+)
+
+var (
+	jwtService      service.JWTService         = service.NewJWTService()
+	loginController controller.LoginController = controller.NewLoginController(jwtService)
 )
 
 func main() {
@@ -14,14 +23,25 @@ func main() {
 	// Create reverse proxy
 	proxy := httputil.NewSingleHostReverseProxy(&url.URL{
 		Scheme: "http",
-		Host:   "http://localhost:5000",
+		Host:   "localhost:5000",
 	})
 
 	router.GET("/", func(ctx *gin.Context) {
 		ctx.JSON(http.StatusAccepted, gin.H{"data": "App up and running"})
 	})
 
-	router.Any("/api/*path", func(ctx *gin.Context) {
+	router.POST("/login", func(ctx *gin.Context) {
+		token := loginController.Login(ctx)
+		if token != "" {
+			ctx.JSON(http.StatusOK, gin.H{
+				"token": token,
+			})
+		} else {
+			ctx.JSON(http.StatusUnauthorized, nil)
+		}
+	})
+
+	router.Any("/api/*path", middleware.AuthorizeToken(), func(ctx *gin.Context) {
 		proxy.ServeHTTP(ctx.Writer, ctx.Request)
 	})
 
