@@ -26,10 +26,12 @@ func main() {
 		Host:   "localhost:5000",
 	})
 
+	// Test endpoint connectivity
 	router.GET("/", func(ctx *gin.Context) {
 		ctx.JSON(http.StatusAccepted, gin.H{"data": "App up and running"})
 	})
 
+	// endpoint to login and generate JWT Token
 	router.POST("/login", func(ctx *gin.Context) {
 		token := loginController.Login(ctx)
 		if token != "" {
@@ -41,6 +43,7 @@ func main() {
 		}
 	})
 
+	// Route requests to python backend
 	router.Any("/api/*path", middleware.AuthorizeToken(), func(ctx *gin.Context) {
 		proxy.ServeHTTP(ctx.Writer, ctx.Request)
 	})
