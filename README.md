@@ -1,5 +1,11 @@
 # api-gateway-kong-golang
 
+## General Introduction
+- This is a api gateway microservices proect
+- It involves following technologies
+      - Kong
+      - Golang
+      - Python
 
 ## Architecture
 
@@ -11,12 +17,6 @@
 - All other requests are redirected first to golang service for authentication
 - Once authenticated it is redirected to the backend service
 - Golang service acts as authentication mechanism and python service acts as backend 
-
-- This is a api gateway microservices proect
-- It involves following technologies
-      - Kong
-      - Golang
-      - Python
 
 ## Initial Configuration
 - Add your Ip Address to gateway in config/kong.yaml
@@ -38,6 +38,8 @@ pip3 install -r requirements.txt
 go mod download
 ```
 
+- Add api endpoints configuration under kong-gateway/config/kong.yaml
+
 ## Running application
 - Run python backend api
 ```
@@ -54,3 +56,5 @@ go run main.go
 in kong-gateway directory
 docker-compose up 
 ```
+
+- curl commands present in curl-commands.md
