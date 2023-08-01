@@ -4,11 +4,11 @@ _transform: true
 
 services:
   - name: proxy-service
-    url: http://host.docker.internal:8005
+    url: http://host.docker.internal:8005/
     routes:
       - name: all-routes
         paths:
-          - /api
+          - /
   - name: login-service
     url: http://host.docker.internal:8005/login
     routes:
