@@ -23,7 +23,7 @@ func main() {
 	// Create reverse proxy
 	proxy := httputil.NewSingleHostReverseProxy(&url.URL{
 		Scheme: "http",
-		Host:   "localhost:5000",
+		Host:   "127.0.0.1:5000",
 	})
 
 	// Test endpoint connectivity
